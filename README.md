@@ -1,2 +1,2 @@
 # InternshipQuizMS
-sunbeam internship project
+Sunbeam internship project
