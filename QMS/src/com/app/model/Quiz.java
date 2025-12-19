@@ -19,7 +19,7 @@ public class Quiz {
 
 	@Override
 	public String toString() {
-		return "Quiz [id=" + id + ", title=" + title + ", creatorId=" + creatorId + "]";
+		return title;
 	}
 
 	public int getId() {

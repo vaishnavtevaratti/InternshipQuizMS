@@ -20,7 +20,6 @@ public class QuestionsDao implements AutoCloseable {
 	}
 
 	public void loadQuestions(String quizName, String path) throws SQLException {
-		Connection connection = Dbutil.getConnection();
 
 		try {
 			List<Question> questionsList = QuestionFileParser.parse(new File(path));
