@@ -1,2 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy/>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="java.sql.DriverManager"/>
+    <fullyQualifiedTypeName name="com.app.menu.MainMenu"/>
+    <fullyQualifiedTypeName name="com.app.service.AdminService"/>
+    <fullyQualifiedTypeName name="com.app.service.StudentService"/>
+    <fullyQualifiedTypeName name="java.util.Scanner"/>
+    <fullyQualifiedTypeName name="com.mysql.cj.xdevapi.DbDoc"/>
+    <fullyQualifiedTypeName name="com.app.model.Attempt"/>
+    <fullyQualifiedTypeName name="com.app.model.Question"/>
+    <fullyQualifiedTypeName name="com.app.model.Quiz"/>
+    <fullyQualifiedTypeName name="com.app.menu.AdminMenu"/>
+    <fullyQualifiedTypeName name="com.app.model.User"/>
+    <fullyQualifiedTypeName name="com.app.dao.UserDao"/>
+    <fullyQualifiedTypeName name="com.app.menu.StudentMenu"/>
+    <fullyQualifiedTypeName name="com.app.dao.QuestionsDao"/>
+    <fullyQualifiedTypeName name="java.sql.Connection"/>
+    <fullyQualifiedTypeName name="com.app.util.Dbutil"/>
+    <fullyQualifiedTypeName name="com.app.util.QuestionFileParser"/>
+    <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
+    <fullyQualifiedTypeName name="com.mysql.cj.x.protobuf.MysqlxCrud.Insert"/>
+    <fullyQualifiedTypeName name="java.sql.ResultSet"/>
+    <fullyQualifiedTypeName name="com.app.dao.QuizDao"/>
+    <fullyQualifiedTypeName name="java.lang.Exception"/>
+</qualifiedTypeNameHistroy>
