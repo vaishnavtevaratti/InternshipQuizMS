@@ -3,27 +3,28 @@ package com.app.service;
 import java.util.List;
 import java.util.Scanner;
 
+import com.app.dao.AttemptDao;
 import com.app.dao.QuestionsDao;
 import com.app.dao.QuizDao;
+import com.app.dao.UserDao;
 import com.app.model.Quiz;
-import com.app.dao.*;
 
 public class AdminService {
 	public static void createQuiz(Scanner sc) {
-		System.out.println("Enter the quiz name: ");
+		System.out.print("\nEnter the quiz name: ");
 		String quizName = sc.next();
-		System.out.println("Enter the creatir id: ");
-		int creator_id = sc.nextInt();
+		
 		try {
 			QuizDao qd = new QuizDao();
-			qd.addQuizTitle(quizName, creator_id);
+			qd.addQuizTitle(quizName, UserDao.currentAdminId);
 			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 		
-		System.out.println("Enter the path of .txt file(questions): ");
+		System.out.print("Enter the path of .txt file(questions): ");
 		String path = sc.next();
+		System.out.println();
 		try {
 			QuestionsDao qs = new QuestionsDao();
 			qs.loadQuestions(quizName,path);
@@ -35,26 +36,35 @@ public class AdminService {
 	}
 
 	public static void displayQuizzes() {
-		System.out.println("==All Available Quizzes==");
+		System.out.println("\n== All Available Quizzes ==");
 		try {
 			QuizDao quiz = new QuizDao();			
 			List<Quiz> quizList = quiz.getQuizList();
+			int i = 1;
 			for(Quiz ls : quizList) {
-				System.out.println(ls);
+				System.out.println(i + ") ID: " +ls.getId() + " :: Title: " + ls.getTitle());
+				i++;
 			}
-			
+			System.out.println();
 		}catch (Exception e) {
+			e.printStackTrace();
+		}
+}
+
+	public static void viewResult() {
+		System.out.println("\n=== Result of the the students ===");
+		try {
+			AttemptDao attemptDao = new AttemptDao();
+			attemptDao.displayResult();			
+		}catch(Exception e ) {
 			e.printStackTrace();
 		}
 	}
 
-	public static void viewResult() {
-
-	}
-
 	public static void deleteQuiz(Scanner sc) {
-		System.out.println("Enter quiz_id to delete: ");
+		System.out.print("Enter quiz_id to delete: ");
 		int quiz_id = sc.nextInt();
+		System.out.println();
 		try {
 			QuizDao quiz = new QuizDao();
 			quiz.deleteQuiz(quiz_id);
@@ -63,5 +73,6 @@ public class AdminService {
 			e.printStackTrace();
 		}
 		System.out.println("Deleted quiz with id: "+ quiz_id);
+		System.out.println();
 	}
 }

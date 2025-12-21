@@ -1,9 +1,0 @@
-package com.app.service;
-
-import java.util.Scanner;
-
-public class AdminService {
-	public static void createQuiz(Scanner sc) {
-		
-	}
-}

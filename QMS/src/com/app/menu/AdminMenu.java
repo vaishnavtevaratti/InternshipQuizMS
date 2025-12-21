@@ -32,7 +32,7 @@ public class AdminMenu {
 		int choice;
 
 		if (authenticateAdmin(sc)) {
-			System.out.println("Admin login success ");
+			System.out.println("\nAdmin login success \n");
 			while ((choice = options(sc)) != 0) {
 				switch (choice) {
 				case 1:

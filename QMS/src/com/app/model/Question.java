@@ -10,7 +10,6 @@ public class Question {
 	public   String d;
 	public char correct;
 	public Question(int id, int quizId, String text, String a, String b, String c, String d, char correct) {
-		super();
 		this.id = id;
 		QuizId = quizId;
 		this.text = text;

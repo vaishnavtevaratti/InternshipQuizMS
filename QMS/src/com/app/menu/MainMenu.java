@@ -10,7 +10,7 @@ public class MainMenu {
 		System.out.println("1) Admin Login ");
 		System.out.println("2) Student Register");
 		System.out.println("3) Student Login");
-		System.out.println("4) Exit ");
+		System.out.println("4) Exit \n");
 
 		System.out.print("Enter your choice: ");
 		return sc.nextInt();
@@ -24,7 +24,7 @@ public class MainMenu {
 				AdminMenu.getadminMenu(sc);
 				break;
 			case 2:
-				StudentMenu.userResistration(sc);
+				StudentService.userResistration(sc);
 				break;
 			case 3:
 				StudentMenu.getStudentMenu(sc);

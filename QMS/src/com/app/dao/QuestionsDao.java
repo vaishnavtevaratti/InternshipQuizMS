@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.app.model.Question;
@@ -43,11 +44,33 @@ public class QuestionsDao implements AutoCloseable {
 				insertQuestion.setString(7, String.valueOf(q.correct));
 				insertQuestion.executeUpdate();
 			}
-			System.out.println("Quiz title and Questions from .txt added!");
+			System.out.println("Quiz title and Questions from .txt added!\n");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
+	}
+	
+	public List<Question> getQuestions(int quiz_id) throws SQLException{
+		List<Question> questionsList = new ArrayList<>();
+		String sql = "SELECT * FROM questions WHERE quiz_id = ?";
+		PreparedStatement selectStatement = connection.prepareStatement(sql);
+		selectStatement.setInt(1, quiz_id);
+		ResultSet rs = selectStatement.executeQuery();
+		while(rs.next()) {
+			Question q = new Question();
+			q.setQuizId(rs.getInt("quiz_id"));
+			q.setText(rs.getString("question_text"));
+			q.setId(rs.getInt("question_id"));
+			q.setA(rs.getString("option_a"));
+			q.setB(rs.getString("option_b"));
+			q.setC(rs.getString("option_c"));
+			q.setD(rs.getString("option_d"));
+			char ch = rs.getString("correct_option").charAt(0);
+			q.setCorrect(ch);
+			questionsList.add(q);			
+		}
+		return questionsList;
 	}
 
 	@Override

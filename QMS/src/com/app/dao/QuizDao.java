@@ -26,7 +26,7 @@ public class QuizDao implements AutoCloseable{
 		inserQuizTitle.executeUpdate();
 	}
 	
-	public static List<Quiz> getQuizList() throws SQLException{
+	public List<Quiz> getQuizList() throws SQLException{
 		List<Quiz> ls = new ArrayList<>();
 		String sql = "SELECT * FROM quizzes";
 		PreparedStatement selectQuiz = connection.prepareStatement(sql);
@@ -34,6 +34,7 @@ public class QuizDao implements AutoCloseable{
 		while(rs.next()) {
 			Quiz quiz = new Quiz();
 			quiz.setTitle(rs.getString(2));
+			quiz.setId(rs.getInt(1));
 			ls.add(quiz);
 		}
 		return ls;

@@ -8,6 +8,27 @@ import java.sql.SQLException;
 import com.app.util.Dbutil;
 
 public class UserDao {
+	
+	
+	public static int currentStudentId;
+	public static int currentAdminId;
+
+	public int getCurrentStudentId() {
+		return currentStudentId;
+	}
+
+	public void setCurrentStudentId(int currentStudentId) {
+		this.currentStudentId = currentStudentId;
+	}
+
+	public int getCurrentAdminId() {
+		return currentAdminId;
+	}
+
+	public void setCurrentAdminId(int currentAdminId) {
+		this.currentAdminId = currentAdminId;
+	}
+
 	public static boolean adminLogin(String username, String password) {
 		try {
 			Connection connection = Dbutil.getConnection();
@@ -19,6 +40,7 @@ public class UserDao {
 			ResultSet rs = selectStatement.executeQuery();
 
 			if (rs.next() && rs.getString(3).equals(username) && rs.getString(4).equals(password)) { // uname,pass,role
+				currentAdminId = (rs.getInt("user_id"));
 				return true;
 			}
 		} catch (Exception e) {
@@ -36,8 +58,9 @@ public class UserDao {
 			selectStatement.setString(2, password);
 
 			ResultSet rs = selectStatement.executeQuery();
-
+			
 			if (rs.next() && rs.getString(3).equals(username) && rs.getString(4).equals(password)) { // uname,pass
+				currentStudentId = (rs.getInt("user_id"));				
 				return true;
 			}
 		} catch (Exception e) {
