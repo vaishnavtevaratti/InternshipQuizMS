@@ -49,6 +49,15 @@ public class QuizDao implements AutoCloseable {
 		return quizList;
 	}
 
+	public void deleteQuiz(int id) throws SQLException {
+		String sql = "DELETE FROM quizzes WHERE  quiz_id  = ?";
+		try (PreparedStatement deleteStatement = connection.prepareStatement(sql)) {
+			deleteStatement.setInt(1, id);
+			deleteStatement.executeUpdate();
+		}
+	}
+
+
 
 	@Override
 	public void close() throws Exception {

@@ -1,9 +1,11 @@
 package com.app.service;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 import com.app.dao.*;
 import com.app.menu.*;
+import com.app.model.Quiz;
 
 public class StudentService {
 	
@@ -49,7 +51,25 @@ public class StudentService {
 			e.printStackTrace();
 		}
 	  }  
-	
+
+	  public void viewQuiz(Scanner sc) {
+			try (QuizDao qd = new QuizDao()){
+				
+				List<Quiz> quizList = qd.listQuizzes();
+				for (Quiz quiz :quizList) {
+					System.out.println("****************************");
+					System.out.println("Quiz Id - " + quiz.getId());
+					System.out.println("Quiz Name  - " + quiz.getTitle());
+				
+					System.out.println("****************************");
+				}
+		
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
 	
 }
 		    	

@@ -14,6 +14,7 @@ public class AdminMenu {
 			System.out.println("0.Logout");
 			System.out.println("1.Create Quiz");
 			System.out.println("2.List Quizzes ");
+			System.out.println("3.Delete Quiz");
 		
 
 			System.out.println(" enter your choice: ");
@@ -27,12 +28,17 @@ public class AdminMenu {
 				switch (choice) {
 				case 1:
 					System.out.println("Create Quiz  Selected");
-
+					adminService.createQuiz(sc);
 
 
 					break;
 				case 2:
 					System.out.println("List Quizzes Selected");
+					adminService.listQuizzes(sc);
+					break;
+				case 3:
+					System.out.println("Delete  Quiz Selected");
+					adminService.deleteQuiz(sc);
 					break;
 			
 				default:

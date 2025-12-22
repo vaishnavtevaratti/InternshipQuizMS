@@ -1,0 +1,108 @@
+package com.app.service;
+
+import java.io.File;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Scanner;
+
+import com.app.dao.*;
+import com.app.menu.AdminMenu;
+import com.app.model.Questions;
+import com.app.model.Quiz;
+import com.app.util.QuestionFileParser;
+
+public class AdminService {
+	
+	
+
+
+	public static void AdminLogin(Scanner sc) {
+		   System.out.println("Enter  Admin email:");
+		   String email = sc.next();
+		   System.out.println("enter password: ");
+		   String password = sc.next();
+		   try(UserDao userDao= new UserDao()) {
+			   if( UserDao.Adminlogin(email, password)) {
+			   System.out.println(" login sucseesful");
+			   AdminMenu.adminMenu(sc);
+			   }
+			   else 		 
+				   System.out.println("Incorrect Information");
+
+		   } catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	  }
+	  
+	  
+	  public static void createQuiz(Scanner sc )  {
+
+	        sc.nextLine();
+		  System.out.println("Enter Quiz title: ");
+		  String title = sc.nextLine();
+		  System.out.println("Enter question file path:");
+		  File file = new File(sc.nextLine());
+		  
+		  Quiz quiz = new Quiz();
+		  quiz.title = title;
+		  quiz.creatorId= UserDao.curUser.getId();
+		  int quizId = 0;
+		  try(QuizDao qd = new QuizDao()){
+			   quizId = qd.insert(quiz);
+			  List<Questions>list =  QuestionFileParser.parse(file);
+			  
+			  try(QuestionsDao qdao =new QuestionsDao()){
+				   for(Questions q : list) {
+					   q.quizId = quizId;
+					   qdao.insert(q);
+					   
+				   }
+		  }
+		  
+				System.out.println("Quiz creaated sucessfully with id =" + quizId);
+
+			  
+		  }catch (Exception e) {
+	            e.printStackTrace();
+		  
+		  
+	
+	  
+	  }
+	  }
+	
+	  public void listQuizzes(Scanner sc) {
+			try (QuizDao qd = new QuizDao()){
+				
+				List<Quiz> quizList = qd.listQuizzes();
+				for (Quiz quiz :quizList) {
+					System.out.println("****************************");
+					System.out.println("Quiz Id - " + quiz.getId());
+					System.out.println("Quiz Name  - " + quiz.getTitle());
+				
+					System.out.println("****************************");
+				}
+		
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+	  public void deleteQuiz(Scanner sc) {
+			System.out.println("Enter the Quiz Id - ");
+			int rollno = sc.nextInt();
+			try (QuizDao studentDao = new QuizDao()) {
+				studentDao.deleteStudent(rollno);
+				System.out.println("Student deleted successfully...");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+	  
+	  
+}
+
+
