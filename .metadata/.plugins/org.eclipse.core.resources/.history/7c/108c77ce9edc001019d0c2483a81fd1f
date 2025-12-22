@@ -1,0 +1,42 @@
+package com.app.menu;
+
+import java.util.Scanner;
+
+import com.app.service.AdminService;
+import com.app.service.StudentService;
+
+public class MainMenu {
+	
+	public static void menuOption(Scanner sc) throws Exception {
+	int ch=0;
+	
+	do {
+		System.out.println("********MENU********");
+		System.out.println("1.Admin login\n2.Student Register\n3.Student Login\n 4.Exit");
+		
+		System.out.println("Select:");
+		ch = sc.nextInt();
+		
+		switch (ch) {
+		case 1: System.out.println("Insert information:");
+				AdminService.AdminLogin(sc);
+				AdminMenu.menu(sc);		
+		break;
+		
+		case 2: System.out.println("Insert information:");
+				StudentService.StudentRegister(sc);
+		break;
+		case 3: System.out.println("Insert information:");
+				StudentService.StudentLogin(sc);
+		break;
+		
+		case 4: System.out.println("Log out");
+		
+		default:
+			System.out.println("Wrong chocie...");
+			break;
+		}
+	}while (ch!=4);
+	
+}
+}

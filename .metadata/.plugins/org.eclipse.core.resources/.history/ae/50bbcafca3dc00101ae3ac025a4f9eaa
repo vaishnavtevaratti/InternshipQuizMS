@@ -1,0 +1,8 @@
+package com.app.util;
+
+import java.awt.List;
+import java.io.File;
+
+public class QuestionFileParser {
+	public static List<Questions> parse(File file) throws Exception {}
+}

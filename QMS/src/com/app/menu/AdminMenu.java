@@ -1,5 +1,46 @@
 package com.app.menu;
 
-public class AdminMenu {
+import java.util.Scanner;
 
+import com.app.service.AdminService;
+
+
+public class AdminMenu {
+	public static void menu(Scanner sc) throws Exception {
+		int ch=0;
+		
+		do {
+			System.out.println("********MENU********");
+			System.out.println("1.Create quiz\n2.List Quiz\n3.View result\n 4.Delete Quiz\n 5.logOut");
+			
+			System.out.println("Select:");
+			ch = sc.nextInt();
+			
+			switch (ch) {
+			case 1: System.out.println("Create quiz:");
+					AdminService.createQuiz(sc, ch);
+			
+			break;
+			
+			case 2: System.out.println("List Quiz:");
+					
+			break;
+			case 3: System.out.println("Result:");
+					
+			break;
+			
+			case 4: System.out.println("Delete");
+			break;
+			
+			case 5: System.out.println("Log out");
+			MainMenu.menuOption(sc);
+			
+			break;
+			default:
+				System.out.println("Wrong chocie...");
+				break;
+			}
+		}while (ch!=4);
+		
+	}
 }

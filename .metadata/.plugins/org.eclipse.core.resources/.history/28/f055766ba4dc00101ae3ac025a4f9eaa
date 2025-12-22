@@ -1,0 +1,15 @@
+package com.app.util;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.app.model.Questions;
+
+public class QuestionFileParser {
+//	public static
+	List<Questions> list = new ArrayList<>()
+;
+	BufferedReader br = new BufferedReader(new FileReader(file))
+}

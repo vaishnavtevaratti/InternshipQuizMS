@@ -1,5 +1,27 @@
 package com.app.util;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 public class Dbutil {
+	private static final String url="jdbc:mysql://localhost:3306/qms"; 
+	private static final String user="root";
+	private static final String pass="manager";
+	
+	
+	static {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            System.out.println("MySQL JDBC Driver loaded");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("MySQL JDBC Driver not found", e);
+        }
+    }
+
+	
+	public static Connection getConnection() throws SQLException{
+		return DriverManager.getConnection(url, user, pass);
+	}
 
 }

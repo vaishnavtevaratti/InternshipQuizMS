@@ -1,5 +1,41 @@
 package com.app.menu;
 
-public class StudentMenu {
+import java.util.Scanner;
 
+public class StudentMenu {
+	public static void menu(Scanner sc) throws Exception {
+		int ch=0;
+		
+		do {
+			System.out.println("********MENU********");
+			System.out.println("1.View all quiz\n2.View Score\n3.Take Quiz\n 4.logOut");
+			
+			System.out.println("Select:");
+			ch = sc.nextInt();
+			
+			switch (ch) {
+			case 1: System.out.println("View all quiz:");
+					
+			
+			break;
+			
+			case 2: System.out.println("View Score:");
+					
+			break;
+			case 3: System.out.println("Take Quiz:");
+					
+			break;
+			
+			case 4: System.out.println("logOut");
+			MainMenu.menuOption(sc);
+			break;
+			
+			
+			default:
+				System.out.println("Wrong chocie...");
+				break;
+			}
+		}while (ch!=4);
+		
+	}
 }

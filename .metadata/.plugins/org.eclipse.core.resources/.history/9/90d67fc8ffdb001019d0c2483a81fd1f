@@ -1,0 +1,71 @@
+package com.app.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import com.app.model.User;
+import com.app.util.Dbutil;
+
+public class UserDao {
+	
+	private static Connection con = null;
+
+	public UserDao() throws SQLException {
+		con = Dbutil.getConnection();
+	}
+	
+	public static void addStudent(User student) throws SQLException{
+		String sql="insert into users ( name ,email,password_hash , role) values (?,?,?,?)";
+		try {
+			PreparedStatement add= con.prepareStatement(sql);
+			add.setString(1,student.getName() );
+			add.setString(2,student.getEmail());
+			add.setString(3, student.getPassword());
+			add.setString(4, student.getRole());
+			add.close();
+			con.close();
+			
+			System.out.println("Student has been registered");
+			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	} 
+	public static void StudentLogin(User student) throws SQLException{
+		String sql="select * from users where email =? and password_hash=? and role= ?";
+		try {
+			PreparedStatement StdLogin= con.prepareStatement(sql);
+			
+			StdLogin.setString(1,student.getEmail());
+			StdLogin.setString(2, student.getPassword());
+			StdLogin.setString(3, student.getRole());
+			StdLogin.close();
+			con.close();
+			
+			System.out.println("Student has been registered");
+			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	} 
+	public static void AdminLogin(User admin) throws SQLException{
+		String sql="select * from users where email =? and password_hash=? and role= ?";
+		try {
+			PreparedStatement AdmLogin= con.prepareStatement(sql);
+			
+			AdmLogin.setString(1,admin.getEmail());
+			AdmLogin.setString(2, admin.getPassword());
+			AdmLogin.setString(3, admin.getRole());
+			AdmLogin.close();
+			con.close();
+			
+			System.out.println("Student has been registered");
+			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	} 
+	
+
+}

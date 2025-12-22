@@ -1,0 +1,32 @@
+package com.app.service;
+
+import java.util.Scanner;
+
+import com.app.model.User;
+
+public class StudentService {
+	
+	public static void StudentRegister(Scanner sc) {
+		User student =new User ();
+		
+		System.out.println("Enter the name:");
+		student.setName(sc.next());
+		System.out.println("Enter the email:");
+		student.setEmail(sc.next());
+		System.out.println("Create password:");
+		student.setPassword(sc.next());
+		String role="Student";
+		
+	}
+	public static void StudentLogin(Scanner sc) {
+		User student =new User ();
+		
+		System.out.println("Enter the email:");
+		student.setEmail(sc.next());
+		System.out.println("Enter password:");
+		student.setPassword(sc.next());
+		String role="Student";
+		
+	}
+
+}

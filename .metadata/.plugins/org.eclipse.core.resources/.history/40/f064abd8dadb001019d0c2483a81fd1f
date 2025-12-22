@@ -1,0 +1,19 @@
+package com.app.service;
+
+import java.util.Scanner;
+
+import com.app.model.User;
+
+public class AdminService {
+	public static void AdminLogin(Scanner sc) {
+		User admin =new User ();
+	
+		System.out.println("Enter the email:");
+		admin.setEmail(sc.next());
+		System.out.println("Enter password:");
+		admin.setPassword(sc.next());
+		String role="Admin";
+		
+	}
+
+}

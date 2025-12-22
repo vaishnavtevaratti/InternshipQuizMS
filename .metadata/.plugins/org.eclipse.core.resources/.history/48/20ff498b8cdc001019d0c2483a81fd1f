@@ -1,0 +1,12 @@
+package com.app.model;
+
+public class Questions {
+	public int id;
+	public int quizId;
+	public int text;
+	public int a;
+	public int b;
+	public int c;
+	public int d;
+	public int correct;
+}

@@ -1,0 +1,32 @@
+package com.app.model;
+
+public class Quiz {
+	public int id;
+	public String title;
+	public int creatorID;
+	public Quiz(int id, String title, int creatorID) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.creatorID = creatorID;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public int getCreatorID() {
+		return creatorID;
+	}
+	public void setCreatorID(int creatorID) {
+		this.creatorID = creatorID;
+	}
+	
+}

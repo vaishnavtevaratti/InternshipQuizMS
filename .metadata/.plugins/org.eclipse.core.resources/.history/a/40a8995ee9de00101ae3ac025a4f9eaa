@@ -1,0 +1,65 @@
+package com.app.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import com.app.model.User;
+import com.app.util.Dbutil;
+
+public class UserDao {
+	
+	
+	private static Connection con;
+
+    static {
+        try {
+            con = Dbutil.getConnection();
+            System.out.println("Database connected successfully");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+	
+	public static void addStudent(User student) throws SQLException{
+		String sql="insert into users ( name ,email,password_hash , role) values (?,?,?,?)";
+		 try (PreparedStatement add = con.prepareStatement(sql)){
+			add.setString(1,student.getName() );
+			add.setString(2,student.getEmail());
+			add.setString(3, student.getPassword());
+			add.setString(4, student.getRole());
+			add.executeUpdate();
+		
+			
+			System.out.println("Student has been registered");
+			
+		}
+	} 
+	 public static boolean StudentLogin(User student) throws SQLException {
+	        String sql = "SELECT id FROM users WHERE email=? AND password_hash=? AND role=?";
+
+	        try (PreparedStatement ps = con.prepareStatement(sql)) {
+	            ps.setString(1, student.getEmail());
+	            ps.setString(2, student.getPassword());
+	            ps.setString(3, student.getRole());
+
+	            ResultSet rs = ps.executeQuery();
+	            return rs.next();
+	        }
+	    }
+	 public static boolean AdminLogin(User admin) throws SQLException {
+	        String sql = "SELECT id FROM users WHERE email=? AND password_hash=? AND role=?";
+
+	        try (PreparedStatement ps = con.prepareStatement(sql)) {
+	            ps.setString(1, admin.getEmail());
+	            ps.setString(2, admin.getPassword());
+	            ps.setString(3, admin.getRole());
+
+	            ResultSet rs = ps.executeQuery();
+	            return rs.next();
+	        }
+	    }
+	
+
+}

@@ -1,0 +1,29 @@
+package com.app.service;
+
+import java.sql.SQLException;
+import java.util.Scanner;
+
+import com.app.dao.UserDao;
+import com.app.model.User;
+
+public class AdminService {
+	public static void AdminLogin(Scanner sc) {
+		User admin =new User ();
+	
+		System.out.println("Enter the email:");
+		admin.setEmail(sc.next());
+		System.out.println("Enter password:");
+		admin.setPassword(sc.next());
+		String role="Admin";
+		
+		try {
+			UserDao.AdminLogin(admin);
+
+			System.out.println("Loginned Sucessfully");
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+}

@@ -1,0 +1,14 @@
+package com.app.main1;
+
+import java.util.Scanner;
+
+import com.app.menu.*;
+
+public class Main {
+
+	public static void main(String[] args) throws Exception {
+		Scanner sc =new Scanner (System.in);
+		MainMenu.menuOption(sc);
+	}
+	
+}

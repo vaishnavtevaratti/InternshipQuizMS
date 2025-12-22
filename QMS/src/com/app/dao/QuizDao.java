@@ -1,5 +1,46 @@
 package com.app.dao;
 
-public class QuizDao {
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.app.model.Quiz;
+import com.app.util.Dbutil;
+
+public class QuizDao {
+	
+	private static Connection con =null;
+	
+	public QuizDao() throws Exception {
+		con=Dbutil.getConnection();
+	}
+	
+	public int insert(Quiz q) throws SQLException {
+		String sql ="insert into quizzes(title ,creator_id) values (?,?)";
+		try {
+		PreparedStatement ps= con.prepareStatement(sql);
+		
+		ps.setString(1, q.title);
+		ps.setInt(2,q.creatorID);
+		ps.executeUpdate();
+		ps.close();
+		con.close();
+		
+		ResultSet rs = ps.getGeneratedKeys();
+		if(rs.next()) {
+			return rs.getInt(1);
+		}
+		
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}return 0;
+	}
+	public static void viewAllQuiz() {
+		List<Quiz> quizList = new ArrayList<Quiz>();
+		Quiz q= new Quiz();
+		
+	}
 }

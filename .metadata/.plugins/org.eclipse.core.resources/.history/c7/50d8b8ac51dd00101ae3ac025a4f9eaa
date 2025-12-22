@@ -1,0 +1,48 @@
+package com.app.service;
+
+import java.sql.SQLException;
+import java.util.Scanner;
+
+import com.app.dao.UserDao;
+import com.app.model.User;
+
+public class StudentService {
+	
+	public static void StudentRegister(Scanner sc) {
+		User student =new User ();
+		
+		System.out.println("Enter the name:");
+		student.setName(sc.next());
+		System.out.println("Enter the email:");
+		student.setEmail(sc.next());
+		System.out.println("Create password:");
+		student.setPassword(sc.next());
+		String role="Student";
+		try {
+			UserDao.addStudent(student);
+
+			System.out.println("Student has been registered");
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	public static void StudentLogin(Scanner sc) {
+		User student =new User ();
+		
+		System.out.println("Enter the email:");
+		student.setEmail(sc.next());
+		System.out.println("Enter password:");
+		student.setPassword(sc.next());
+		String role="Student";
+		try {
+			UserDao.StudentLogin(student);
+
+			System.out.println("Loginned Sucessfully");
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+}
