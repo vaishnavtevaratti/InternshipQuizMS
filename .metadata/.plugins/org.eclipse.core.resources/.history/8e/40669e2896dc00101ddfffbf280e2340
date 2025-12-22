@@ -1,0 +1,24 @@
+package com.app.dao;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import com.app.util.Dbutil;
+
+public class QuestionsDao  implements AutoCloseable{
+	private static Connection connection = null;
+
+	public QuizDao() throws SQLException {
+		connection = Dbutil.getConnection();
+	}
+
+	@Override
+	public void close() throws Exception {
+		// TODO Auto-generated method stub
+		if (connection != null) {
+			connection.close();
+			connection = null;
+		}
+	}
+
+}

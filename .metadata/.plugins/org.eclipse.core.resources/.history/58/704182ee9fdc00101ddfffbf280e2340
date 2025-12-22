@@ -1,0 +1,46 @@
+package com.app.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import com.app.model.Questions;
+import com.app.util.Dbutil;
+
+public class QuestionsDao  implements AutoCloseable{
+	private static Connection connection = null;
+
+	public QuestionsDao() throws SQLException {
+		connection = Dbutil.getConnection();
+	}
+public void insert(Questions q)throws Exception {
+	String sql = "insert into questions (quiz_id , question_text, option a , option b , option c, opyion d , correct_option  ) values(?,?,?,?,?,?,?)";
+	try(PreparedStatement ps = connection.prepareStatement(sql)){
+		
+		
+	ps.setInt(1, q.quizId);
+	ps.setString(2, q.text);
+	ps.setString(3, q.a);
+	ps.setString(4, q.b);
+	ps.setString(5, q.c);
+	ps.setString(6, q.d);
+	ps.setString(7, String.valueOf(q.correct));
+
+		
+		
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	
+	
+}
+	@Override
+	public void close() throws Exception {
+		// TODO Auto-generated method stub
+		if (connection != null) {
+			connection.close();
+			connection = null;
+		}
+	}
+
+}

@@ -1,0 +1,80 @@
+package com.app.service;
+
+import java.io.File;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Scanner;
+
+import com.app.dao.*;
+import com.app.menu.AdminMenu;
+import com.app.model.Questions;
+import com.app.model.Quiz;
+import com.app.util.QuestionFileParser;
+
+public class AdminService {
+	
+	  public static void AdminLogin(Scanner sc) {
+		   System.out.println("Enter  Admin email:");
+		   String email = sc.next();
+		   System.out.println("enter password: ");
+		   String password = sc.next();
+		   try(UserDao userDao= new UserDao()) {
+			   if( UserDao.Adminlogin(email, password)) {
+			   System.out.println(" login sucseesful");
+			   AdminMenu.adminMenu(sc);
+			   }
+			   else 		 
+				   System.out.println("Incorrect Information");
+
+		   } catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	  }
+	  
+	  
+	  private static void createQuiz(Scanner sc , int adminId) throws SQLException, Exception {
+		  System.out.println("Enter Quiz title: ");
+		  String title = sc.nextLine();
+		  System.out.println("Enter question file path:");
+		  File file = new File(sc.nextLine());
+		  
+		  Quiz quiz = new Quiz();
+		  quiz.title = title;
+		  quiz.creatorId= adminId;
+		  try(QuizDao q = new QuizDao()){
+			  int quizId = q.insert(quiz);
+			  List<Questions> list = new QuestionFileParser.parse(file);
+			  
+			  try(QuestionsDao qdao =new QuestionsDao()){
+				   for(Questions q1 : list) {
+					   q1.quizId = quizId;
+					   qdao.insert(q1);
+					   
+				   }
+		  }
+		  
+//		  try(QuizDao qd= new QuizDao()) {
+//			   int quizId = qd.insert(quiz);
+//			   List<Questions> list = QuestionFileParser.parse(file);
+//			   
+//			   
+//			   try(QuestionsDao qdao =new QuestionsDao()){
+//				   for(Questions q : list) {
+//					   q.quizId = quizId;
+//					   qdao.insert(q);
+//					   
+//				   }
+//				   
+//			   }
+			  
+		  }
+		  
+		  
+		//System.out.println("Quiz creaated sucessfully with id =" + quizId);
+	  
+	  }
+	
+
+
+

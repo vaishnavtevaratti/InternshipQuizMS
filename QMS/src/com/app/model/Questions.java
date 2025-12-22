@@ -2,7 +2,7 @@ package com.app.model;
 
 public class Questions {
 	public int id ;
-	public int QuizId;
+	public int quizId;
 	public   String text;
 	public   String a;
 	public   String b;
@@ -12,7 +12,7 @@ public class Questions {
 	public Questions(int id, int quizId, String text, String a, String b, String c, String d, char correct) {
 	
 		this.id = id;
-		QuizId = quizId;
+		this.quizId = quizId;
 		this.text = text;
 		this.a = a;
 		this.b = b;

@@ -1,0 +1,28 @@
+package com.app.dao;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import com.app.model.Quiz;
+import java.sql.Connection;
+import com.app.util.*;
+private static Connection connection = null;
+
+public class QuizDao {
+ public int insert(Quiz quiz) throws SQLException {
+     String sql = "insert into quizzes(title, creator_id)values(?,?)";
+     try(PreparedStatement ps = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS)){
+    	 ps.setString(1, quiz.title);
+    	 ps.setInt(2, quiz.cratorId);
+    	 ps.executeUpdate();
+    	  ResultSet rs = ps.getGeneratedKeys();
+    	  if(rs.next()) {
+    		  return rs.getInt(1);
+    		  
+    	  }
+    	  return 0;
+    	  }
+ }
+}

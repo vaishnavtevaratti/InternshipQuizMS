@@ -3,7 +3,7 @@ package com.app.service;
 import java.sql.SQLException;
 import java.util.Scanner;
 import com.app.dao.*;
-import com.app.menu.StudentMenu;
+import com.app.menu.*;
 
 public class StudentService {
 	

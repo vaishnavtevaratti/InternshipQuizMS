@@ -1,14 +1,22 @@
 package com.app.service;
 
+import java.io.File;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 
-import com.app.dao.UserDao;
+import com.app.dao.*;
 import com.app.menu.AdminMenu;
+import com.app.model.Questions;
+import com.app.model.Quiz;
+import com.app.util.QuestionFileParser;
 
 public class AdminService {
 	
-	  public static void AdminLogin(Scanner sc) {
+	
+
+
+	public static void AdminLogin(Scanner sc) {
 		   System.out.println("Enter  Admin email:");
 		   String email = sc.next();
 		   System.out.println("enter password: ");
@@ -25,8 +33,62 @@ public class AdminService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	  }  
+	  }
+	  
+	  
+	  public static void createQuiz(Scanner sc )  {
+
+	        sc.nextLine();
+		  System.out.println("Enter Quiz title: ");
+		  String title = sc.nextLine();
+		  System.out.println("Enter question file path:");
+		  File file = new File(sc.nextLine());
+		  
+		  Quiz quiz = new Quiz();
+		  quiz.title = title;
+		  quiz.creatorId= UserDao.curUser.getId();
+		  int quizId = 0;
+		  try(QuizDao qd = new QuizDao()){
+			   quizId = qd.insert(quiz);
+			  List<Questions>list =  QuestionFileParser.parse(file);
+			  
+			  try(QuestionsDao qdao =new QuestionsDao()){
+				   for(Questions q : list) {
+					   q.quizId = quizId;
+					   qdao.insert(q);
+					   
+				   }
+		  }
+		  
+				System.out.println("Quiz creaated sucessfully with id =" + quizId);
+
+			  
+		  }catch (Exception e) {
+	            e.printStackTrace();
+		  
+		  
 	
+	  
+	  }
+	  }
+	
+//	  public void listQuizzes() {
+//			try (QuizDao qd = new QuizDao()) {
+//				
+//				List<Quiz> quizList = qd.listQuizzes();
+//				for (Quiz quiz :quizList) {
+//					System.out.println("****************************");
+//					System.out.println("Quiz Id - " + qd.getQuizid());
+//					System.out.println("Quiz Name  - " + student.getName());
+//				
+//					System.out.println("****************************");
+//				}
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//	  
+//	  
 }
 
 

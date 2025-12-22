@@ -3,7 +3,11 @@ package com.app.menu;
 
 import java.util.Scanner;
 
+import com.app.service.AdminService;
+
 public class AdminMenu {
+	private static AdminService adminService = new AdminService();
+
 	
 		private static  int adminMenuOptions(Scanner sc) {
 			System.out.println("****************Admin menu**********************");
@@ -23,6 +27,9 @@ public class AdminMenu {
 				switch (choice) {
 				case 1:
 					System.out.println("Create Quiz  Selected");
+
+
+
 					break;
 				case 2:
 					System.out.println("List Quizzes Selected");

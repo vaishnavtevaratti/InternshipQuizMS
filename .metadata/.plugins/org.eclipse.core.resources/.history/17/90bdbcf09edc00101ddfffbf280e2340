@@ -1,0 +1,72 @@
+Which company created Java? 
+A) Sun Microsystems 
+B) Microsoft 
+C) Apple 
+D) Google 
+ANSWER: A 
+
+
+String (Strings are objects in Java, not primitives). 
+2. Object-Oriented Programming (OOP) 
+Question: Which keyword is used to inherit a class in Java?
+A) implements
+B) extends
+C) inherits
+D) uses 
+Answer: B) extends (implements is used for interfaces). 
+3. Keywords
+Question: What does the final keyword signify when applied to a class?
+A) The class cannot be instantiated.
+B) The class must contain only static methods.
+C) The class cannot be subclassed (inherited).
+D) The class can only be accessed within the same package. 
+Answer: C) The class cannot be subclassed. 
+4. Exception Handling
+Question: Which block is always executed in a try-catch structure, regardless of whether an exception occurred?
+A) catch
+B) throw
+C) finally
+D) throws
+Answer: C) finally. 
+5. Memory Management
+Question: Where are local variables stored in Java? 
+A) Heap Memory
+B) Stack Memory
+C) Method Area
+D) Permanent Generation 
+Answer: B) Stack Memory (Objects are stored in the Heap, while local variables and method calls are in the Stack). 
+6. Methods & Static Keyword
+Question: What is true about a static method?
+A) It can only access non-static instance variables.
+B) It can be called without creating an instance of the class.
+C) It cannot be overloaded.
+D) It must be private. 
+Answer: B) It can be called without creating an instance of the class. 
+7. Java Strings
+Question: What will be the output of System.out.println("Java".substring(1, 3));?
+A) av
+B) ava
+C) Jav
+D) ja
+Answer: A) av (The substring method is inclusive of the start index and exclusive of the end index). 
+8. Arrays
+Question: What is the default value of an element in an int[] array of size 5?
+A) null
+B) undefined
+C) 0
+D) 1
+Answer: C) 0 (Numeric primitive arrays are initialized with 0 by default). 
+9. Interfaces
+Question: Which of the following is true about a Java interface?
+A) It can have a constructor.
+B) It can only contain abstract methods (before Java 8).
+C) A class can only implement one interface.
+D) All fields in an interface are private by default. 
+Answer: B) It can only contain abstract methods (before Java 8) (Interface fields are implicitly public static final). 
+10. Garbage Collection
+Question: Which method is called by the Garbage Collector just before an object is destroyed?
+A) destroy()
+B) delete()
+C) finalize()
+D) cleanup()
+Answer: C) finalize()

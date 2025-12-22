@@ -1,5 +1,61 @@
 package com.app.dao;
 
-public class QuizDao {
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.app.model.Quiz;
+import com.app.util.Dbutil;
+
+public class QuizDao implements AutoCloseable {
+
+	private static Connection connection = null;
+
+	public QuizDao() throws SQLException {
+		connection = Dbutil.getConnection();
+	}
+
+	public int insert(Quiz quiz) throws SQLException {
+		String sql = "insert into quizzes(title, creator_id)values(?,?)";
+		try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+			ps.setString(1, quiz.title);
+			ps.setInt(2, quiz.creatorId);
+			ps.executeUpdate();
+			ResultSet rs = ps.getGeneratedKeys();
+			if (rs.next()) {
+				return rs.getInt(1);
+
+			}
+			return 0;
+		}
+	}
+	public List<Quiz> listQuizzes() throws SQLException {
+		List<Quiz> quizList = new ArrayList<>();
+		String sql = "SELECT * FROM quizzes";
+		try (PreparedStatement selectStatement = connection.prepareStatement(sql)) {
+			ResultSet rs = selectStatement.executeQuery();
+			while (rs.next()) {
+			Quiz quiz = new Quiz()	;
+			  quiz.setId(rs.getInt(1));
+				quiz.setTitle(rs.getString(2));
+		
+				quizList.add(quiz);
+			}
+		}
+		return quizList;
+	}
+
+
+	@Override
+	public void close() throws Exception {
+		// TODO Auto-generated method stub
+		if (connection != null) {
+			connection.close();
+			connection = null;
+		}
+	}
 }
