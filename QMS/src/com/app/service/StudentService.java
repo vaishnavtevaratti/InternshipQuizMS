@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Scanner;
 import com.app.dao.*;
 import com.app.menu.*;
+import com.app.model.Attempt;
+import com.app.model.Questions;
 import com.app.model.Quiz;
 
 public class StudentService {
@@ -69,8 +71,71 @@ public class StudentService {
 				e.printStackTrace();
 			}
 		}
-
+         
+	  public void takeQuiz(Scanner sc) {
+		  System.out.println("Enter Quiz Id:");
+		  int quizId= sc.nextInt();
+		  try(QuestionsDao qued = new QuestionsDao()){
+			  
+			  List<Questions> list = qued.getQuestions(quizId);
+			  int i = 1;
+			  int score =0 ;
+			  for(Questions q : list) {
+				 System.out.println(i+")"+q.getText());
+				 System.out.println("a)"+q.getA());
+				 System.out.println("b)"+q.getB());
+				 System.out.println("c)"+q.getC());
+				 System.out.println("d)"+q.getD());
+				 
+				 System.out.println("Enter  correct option :");
+				 String option = sc.next();
+				 
+				 if (String.valueOf(q.getCorrect()).toUpperCase().equals(String.valueOf(option.charAt(0)).toUpperCase()) ) {
+					 score++;
+					 
+				 }
+				 System.out.println("You entered option :"+option.toUpperCase());
+				 System.out.println("Correct ans is option :"+q.getCorrect());
+				 i++;					 
+				 }
+			  
+			  
+			  AttemptDao atm = new AttemptDao();
+			  atm.recordAttempt(quizId,UserDao.curUser.getId(),score,list.size());
+			  
+		System.out.println("Quiz Completed !! ");
+			  
+			 
+			  
+		  }catch(Exception e) {
+			  e.printStackTrace();
+		  }
+	  }
 	
+	  
+	  public void viewScore() {
+		  System.out.println(" Your Score :");
+		   try(AttemptDao ad = new AttemptDao()){
+			   
+			   List<Attempt> list = ad.getAteemptlist(UserDao.curUser.getId());
+			   for(Attempt at : list) {
+				   System.out.println( "QuizId:"+ at.getQuizId()+"  "+"Score:"+ at.getScore() );
+				   
+			   }
+			   
+			   
+			   
+		   } catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	  }
+	  
+	  
 }
 		    	
 		    	
