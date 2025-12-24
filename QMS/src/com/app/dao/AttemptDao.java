@@ -54,8 +54,34 @@ public class AttemptDao implements AutoCloseable {
 			
 		}
 		return list;
+		
+		 
+		
+		
 	}
-
+	 public boolean hasAttemptedAlready(int student_id , int quiz_id) throws SQLException {
+		  
+		 String sql = " select * from quiz_attempts where  student_id =? and quiz_id =?";
+		  try(PreparedStatement ps = connection.prepareStatement(sql)){
+			  ps.setInt(1, student_id);
+			  ps.setInt(2, quiz_id);
+			  
+			  ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				return true;
+			}
+			else {
+				return false;
+			}
+			  
+			  
+			  
+		  }
+		  
+		  
+		
+	  }
+	 
 	@Override
 	public void close() throws Exception {
 		// TODO Auto-generated method stub

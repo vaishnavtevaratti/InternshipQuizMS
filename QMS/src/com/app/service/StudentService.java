@@ -72,44 +72,55 @@ public class StudentService {
 			}
 		}
          
-	  public void takeQuiz(Scanner sc) {
+	  public void takeQuiz(Scanner sc)  {
 		  System.out.println("Enter Quiz Id:");
-		  int quizId= sc.nextInt();
-		  try(QuestionsDao qued = new QuestionsDao()){
-			  
-			  List<Questions> list = qued.getQuestions(quizId);
-			  int i = 1;
-			  int score =0 ;
-			  for(Questions q : list) {
-				 System.out.println(i+")"+q.getText());
-				 System.out.println("a)"+q.getA());
-				 System.out.println("b)"+q.getB());
-				 System.out.println("c)"+q.getC());
-				 System.out.println("d)"+q.getD());
-				 
-				 System.out.println("Enter  correct option :");
-				 String option = sc.next();
-				 
-				 if (String.valueOf(q.getCorrect()).toUpperCase().equals(String.valueOf(option.charAt(0)).toUpperCase()) ) {
-					 score++;
-					 
-				 }
-				 System.out.println("You entered option :"+option.toUpperCase());
-				 System.out.println("Correct ans is option :"+q.getCorrect());
-				 i++;					 
-				 }
-			  
-			  
+		    int quizId= sc.nextInt();
+		  try {
 			  AttemptDao atm = new AttemptDao();
-			  atm.recordAttempt(quizId,UserDao.curUser.getId(),score,list.size());
-			  
-		System.out.println("Quiz Completed !! ");
-			  
-			 
-			  
-		  }catch(Exception e) {
-			  e.printStackTrace();
-		  }
+			  if((atm.hasAttemptedAlready(UserDao.curUser.getId() ,quizId))== false) {
+				  System.out.println("**********Quiz Started**********");
+				  try(QuestionsDao qued = new QuestionsDao()){
+					  
+					  List<Questions> list = qued.getQuestions(quizId);
+					  int i = 1;
+					  int score =0 ;
+					  for(Questions q : list) {
+						 System.out.println(i+")"+q.getText());
+						 System.out.println("a)"+q.getA());
+						 System.out.println("b)"+q.getB());
+						 System.out.println("c)"+q.getC());
+						 System.out.println("d)"+q.getD());
+						 
+						 System.out.println("Enter  correct option :");
+						 String option = sc.next();
+						 
+						 if (String.valueOf(q.getCorrect()).toUpperCase().equals(String.valueOf(option.charAt(0)).toUpperCase()) ) {
+							 score++;
+							 
+						 }
+						 System.out.println("You entered option :"+option.toUpperCase());
+						 System.out.println("Correct ans is option :"+q.getCorrect());
+						 i++;					 
+						 }
+					  
+					  
+					  atm.recordAttempt(quizId,UserDao.curUser.getId(),score,list.size());
+					  
+				System.out.println("Quiz Completed !! " );
+				System.out.println("Your score is :" + score);
+					  
+					 
+					  
+				  }catch(Exception e) {
+					  e.printStackTrace();
+				  }
+			  }else {
+				  System.out.println("Quiz Alreday Attempted ! ");
+
+			  }
+		} catch (Exception e2) {
+			e2.printStackTrace();
+		}
 	  }
 	
 	  
