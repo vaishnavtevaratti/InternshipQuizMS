@@ -11,7 +11,7 @@ import com.app.util.Dbutil;
 public class UserDao implements AutoCloseable {
 	
 	private static Connection connection = null;
-
+	public static User curUser=null;
 	public UserDao() throws SQLException {
 		connection = Dbutil.getConnection();
 	}
@@ -26,12 +26,18 @@ public class UserDao implements AutoCloseable {
 			  
 			if(rs.next()) {
 				
+				curUser=new User();
+				curUser.setId(rs.getInt(1));
+				curUser.setName(rs.getString(2));
+				curUser.setEmail(rs.getString(3));
+				curUser.setPassword(rs.getString(4));
+				curUser.setRole(rs.getString(5));
 				return true;
 			}
 			  
-			  connection.close();
-			  ps.close();
-			
+//			  connection.close();
+//			  ps.close();
+//			
 		  }catch (SQLException e) {
 			  e.printStackTrace();
 			// TODO: handle exception
@@ -54,8 +60,8 @@ public class UserDao implements AutoCloseable {
 			  ps.setString(4, "student" );
 
 			  ps.executeUpdate();
-			  connection.close();
-			  ps.close();
+//			  connection.close();
+//			  ps.close();
 			  
 			return true;
 			
@@ -75,11 +81,17 @@ public class UserDao implements AutoCloseable {
 			  ResultSet rs = ps.executeQuery();
 			  
 			  if(rs.next()) {
+					curUser=new User();
+					curUser.setId(rs.getInt(1));
+					curUser.setName(rs.getString(2));
+					curUser.setEmail(rs.getString(3));
+					curUser.setPassword(rs.getString(4));
+					curUser.setRole(rs.getString(5));
 					return true;
 				}
-			  connection.close();
-			  ps.close();
-		
+//			  connection.close();
+//			  ps.close();
+//		
 		  }catch (SQLException e) {
 			  e.printStackTrace();
 			// TODO: handle exception

@@ -3,16 +3,20 @@ package com.app.menu;
 
 import java.util.Scanner;
 
+import com.app.service.StudentService;
+
 public class StudentMenu {
+	private static StudentService studentService = new StudentService();
+	
 	
 		private static  int studentMenuOptions(Scanner sc) {
 			System.out.println("***************Student menu*********************");
 			System.out.println("0.Logout");
-			System.out.println("1.View Quizes");
-			System.out.println("2.Take Quizzes ");
+			System.out.println("1.View Quiz");
+			System.out.println("2.Take Quiz ");
 			System.out.println("3.View Score ");
 
-			System.out.println(" enter your choic: ");
+			System.out.println(" enter your choice: ");
 
 			return sc.nextInt();
 		}
@@ -23,12 +27,15 @@ public class StudentMenu {
 				switch (choice) {
 				case 1:
 					System.out.println("View  Quiz  Selected");
+					studentService.viewQuiz(sc);
 					break;
 				case 2:
-					System.out.println("Take Quizzes Selected");
+					System.out.println("Take Quiz Selected");
+					studentService.takeQuiz(sc);
 					break;
 				case 3:
 					System.out.println("view score Selected");
+					studentService.viewScore();
 					break;
 			
 				default:

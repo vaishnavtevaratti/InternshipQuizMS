@@ -37,7 +37,6 @@ public class MainMenu {
 				System.out.println("You have selected Student Login ");
 				System.out.println();
 				studentService.StudentLogin(sc);
-			
 				break;
 
 			default:
