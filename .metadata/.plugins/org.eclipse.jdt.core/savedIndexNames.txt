@@ -1,5 +1,4 @@
 INDEX VERSION 1.134+D:\temp\InternshipQuizMS\.metadata\.plugins\org.eclipse.jdt.core
 509324349.index
-2052332167.index
 1865797976.index
 3383509087.index
