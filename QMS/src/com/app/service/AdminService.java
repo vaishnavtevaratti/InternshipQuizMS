@@ -1,78 +1,107 @@
 package com.app.service;
 
+import java.io.File;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
-import com.app.dao.AttemptDao;
-import com.app.dao.QuestionsDao;
-import com.app.dao.QuizDao;
-import com.app.dao.UserDao;
+import com.app.dao.*;
+import com.app.menu.AdminMenu;
+import com.app.model.Questions;
 import com.app.model.Quiz;
+import com.app.util.QuestionFileParser;
 
 public class AdminService {
-	public static void createQuiz(Scanner sc) {
-		System.out.print("\nEnter the quiz name: ");
-		String quizName = sc.next();
-		
-		try {
-			QuizDao qd = new QuizDao();
-			qd.addQuizTitle(quizName, UserDao.currentAdminId);
-			
-		}catch(Exception e) {
+	
+	 //admin
+
+
+	public static void AdminLogin(Scanner sc) {
+		   System.out.println("Enter  Admin email:");
+		   String email = sc.next();
+		   System.out.println("enter password: ");
+		   String password = sc.next();
+		   try(UserDao userDao= new UserDao()) {
+			   if( UserDao.Adminlogin(email, password)) {
+			   System.out.println(" login sucseesful");
+			   AdminMenu.adminMenu(sc);
+			   }
+			   else 		 
+				   System.out.println("Incorrect Information");
+
+		   } catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	  }
+	  public static void createQuiz(Scanner sc )  {
+	      sc.nextLine();
+		  System.out.println("Enter Quiz title: ");
+		  String title = sc.nextLine();
+		  System.out.println("Enter question file path:");
+		  File file = new File(sc.nextLine());
+		  
+		  Quiz quiz = new Quiz();
+		  quiz.title = title;
+		  quiz.creatorId= UserDao.curUser.getId();
+		  int quizId = 0;
+		  try(QuizDao qd = new QuizDao()){
+			   quizId = qd.insert(quiz);
+			  List<Questions>list =  QuestionFileParser.parse(file);
+			  
+			  try(QuestionsDao qdao =new QuestionsDao()){
+				   for(Questions q : list) {
+					   q.quizId = quizId;
+					   qdao.insert(q);
+					   
+				   }
+		  }
+		  
+				System.out.println("Quiz creaated sucessfully with id =" + quizId);
+
+			  
+		  }catch (Exception e) {
+	            e.printStackTrace();
+		  
+		  
+	
+	  
+	  }
+	  }
+	
+	  public void listQuizzes(Scanner sc) {
+			try (QuizDao qd = new QuizDao()){
+				
+				List<Quiz> quizList = qd.listQuizzes();
+				for (Quiz quiz :quizList) {
+					System.out.println("****************************");
+					System.out.println("Quiz Id - " + quiz.getId());
+					System.out.println("Quiz Name  - " + quiz.getTitle());
+				
+					System.out.println("****************************");
+				}
 		
-		System.out.print("Enter the path of .txt file(questions): ");
-		String path = sc.next();
-		System.out.println();
-		try {
-			QuestionsDao qs = new QuestionsDao();
-			qs.loadQuestions(quizName,path);
-			
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	public static void displayQuizzes() {
-		System.out.println("\n== All Available Quizzes ==");
-		try {
-			QuizDao quiz = new QuizDao();			
-			List<Quiz> quizList = quiz.getQuizList();
-			int i = 1;
-			for(Quiz ls : quizList) {
-				System.out.println(i + ") ID: " +ls.getId() + " :: Title: " + ls.getTitle());
-				i++;
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			System.out.println();
-		}catch (Exception e) {
-			e.printStackTrace();
 		}
+
+	  public void deleteQuiz(Scanner sc) {
+			System.out.println("Enter the Quiz Id - ");
+			int id = sc.nextInt();
+			try (QuizDao QuizDao = new QuizDao()) {
+				QuizDao.deleteQuiz(id);
+				System.out.println("Quiz deleted successfully...");
+		
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+	  
+	  
 }
 
-	public static void viewResult() {
-		System.out.println("\n=== Result of the the students ===");
-		try {
-			AttemptDao attemptDao = new AttemptDao();
-			attemptDao.displayResult();			
-		}catch(Exception e ) {
-			e.printStackTrace();
-		}
-	}
 
-	public static void deleteQuiz(Scanner sc) {
-		System.out.print("Enter quiz_id to delete: ");
-		int quiz_id = sc.nextInt();
-		System.out.println();
-		try {
-			QuizDao quiz = new QuizDao();
-			quiz.deleteQuiz(quiz_id);
-			
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		System.out.println("Deleted quiz with id: "+ quiz_id);
-		System.out.println();
-	}
-}

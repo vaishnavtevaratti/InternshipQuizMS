@@ -1,6 +1,5 @@
 package com.app.dao;
 
-import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,73 +7,65 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.app.model.Question;
+import com.app.model.Questions;
 import com.app.util.Dbutil;
-import com.app.util.QuestionFileParser;
 
 public class QuestionsDao implements AutoCloseable {
-
-	private Connection connection = null;
+	private static Connection connection = null;
 
 	public QuestionsDao() throws SQLException {
 		connection = Dbutil.getConnection();
 	}
 
-	public void loadQuestions(String quizName, String path) throws SQLException {
+	public void insert(Questions q) throws Exception {
+		String sql = "insert into questions (quiz_id , question_text, option_a , option_b , option_c, option_d , correct_option  ) values(?,?,?,?,?,?,?)";
+		try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
-		try {
-			List<Question> questionsList = QuestionFileParser.parse(new File(path));
-			String sqlQuizName = "SELECT quiz_id FROM quizzes WHERE title = ?";
-			PreparedStatement selectQuizTitle = connection.prepareStatement(sqlQuizName);
-			selectQuizTitle.setString(1, quizName);
-			ResultSet rs1 = selectQuizTitle.executeQuery();
+			ps.setInt(1, q.quizId);
+			ps.setString(2, q.text);
+			ps.setString(3, q.a);
+			ps.setString(4, q.b);
+			ps.setString(5, q.c);
+			ps.setString(6, q.d);
+			ps.setString(7, String.valueOf(q.correct));
+			ps.executeUpdate();
 
-			String quesSql = "INSERT INTO questions (quiz_id, question_text, option_a, option_b, option_c, option_d, correct_option) VALUES (?,?,?,?,?,?,?)";
-			PreparedStatement insertQuestion = connection.prepareStatement(quesSql);
-
-			rs1.next();
-			int qid = rs1.getInt("quiz_id");
-			for (Question q : questionsList) {
-				insertQuestion.setInt(1, qid);
-				insertQuestion.setString(2, q.text);
-				insertQuestion.setString(3, q.a);
-				insertQuestion.setString(4, q.b);
-				insertQuestion.setString(5, q.c);
-				insertQuestion.setString(6, q.d);
-				insertQuestion.setString(7, String.valueOf(q.correct));
-				insertQuestion.executeUpdate();
-			}
-			System.out.println("Quiz title and Questions from .txt added!\n");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
-	
-	public List<Question> getQuestions(int quiz_id) throws SQLException{
-		List<Question> questionsList = new ArrayList<>();
-		String sql = "SELECT * FROM questions WHERE quiz_id = ?";
-		PreparedStatement selectStatement = connection.prepareStatement(sql);
-		selectStatement.setInt(1, quiz_id); 
-		ResultSet rs = selectStatement.executeQuery();
-		while(rs.next()) {
-			Question q = new Question();
-			q.setQuizId(rs.getInt("quiz_id"));
-			q.setText(rs.getString("question_text"));
-			q.setId(rs.getInt("question_id"));
-			q.setA(rs.getString("option_a"));
-			q.setB(rs.getString("option_b"));
-			q.setC(rs.getString("option_c"));
-			q.setD(rs.getString("option_d"));
-			char ch = rs.getString("correct_option").charAt(0);
-			q.setCorrect(ch);
-			questionsList.add(q);			
+
+	public List<Questions> getQuestions(int quizId) throws SQLException {
+		List<Questions> list = new ArrayList<>();
+		String sql = "select * from questions where quiz_id =?";
+		try (PreparedStatement ps = connection.prepareStatement(sql)) {
+			ps.setInt(1, quizId);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				Questions q = new Questions();
+				q.setId(rs.getInt("question_id"));
+				q.setQuizId(rs.getInt("quiz_id"));
+				q.setText(rs.getString("question_text"));
+				q.setA(rs.getString("option_a"));
+				q.setB(rs.getString("option_b"));
+				q.setC(rs.getString("option_c"));
+				q.setD(rs.getString("option_d"));
+				q.setCorrect((rs.getString("correct_option")).charAt(0));
+				list.add(q);
+
+			}
+			
 		}
-		return questionsList;
+		return list;
 	}
+	
+	
 
 	@Override
-	public void close() throws SQLException {
+	public void close() throws Exception {
+		// TODO Auto-generated method stub
 		if (connection != null) {
 			connection.close();
 			connection = null;

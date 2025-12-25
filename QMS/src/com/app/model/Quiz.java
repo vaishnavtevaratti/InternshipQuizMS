@@ -1,26 +1,23 @@
 package com.app.model;
 
 public class Quiz {
-	
 	public int id;
 	public String title;
 	public Integer creatorId;
-
-	public Quiz() {
-		
-	}
-
+	
 	public Quiz(int id, String title, Integer creatorId) {
-		super();
+	
 		this.id = id;
 		this.title = title;
 		this.creatorId = creatorId;
 	}
+	
 
-	@Override
-	public String toString() {
-		return title;
+	public Quiz() {
+		
+		// TODO Auto-generated constructor stub
 	}
+
 
 	public int getId() {
 		return id;
@@ -45,6 +42,5 @@ public class Quiz {
 	public void setCreatorId(Integer creatorId) {
 		this.creatorId = creatorId;
 	}
-	
-	
+
 }
