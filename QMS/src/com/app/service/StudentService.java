@@ -1,5 +1,154 @@
 package com.app.service;
 
-public class StudentService {
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Scanner;
+import com.app.dao.*;
+import com.app.menu.*;
+import com.app.model.Attempt;
+import com.app.model.Questions;
+import com.app.model.Quiz;
 
+public class StudentService {
+	
+	
+	
+	public static void StudentRegistration(Scanner sc) {
+		   System.out.println("enter username: ");
+		   String name = sc.next();
+		   System.out.println("Enter email: ");
+		   String email = sc.next();
+		   System.out.println("Enter password: ");
+		   String password = sc.next();
+		   try(UserDao userDao= new UserDao()) {
+			   if( UserDao.studentRegister(name,email, password)) {
+			   System.out.println(" Registration sucseesful");
+			
+			   }
+			   else 		
+				   System.out.println(" Registration failed");
+
+		   } catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+ }
+	
+
+	  public static void StudentLogin(Scanner sc) {
+		   System.out.println("Enter student Email: ");
+		   String email = sc.next();
+		   System.out.println("Enter password: ");
+		   String password = sc.next();
+		   try(UserDao userDao= new UserDao()) {
+			   if( UserDao.Studentlogin(email, password)) {
+			   System.out.println(" Login sucseesful");
+			   StudentMenu.studentMenu(sc);
+			   }
+			   else 		
+				   System.out.println("Incorrect Information");
+
+		   } catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	  }  
+
+	  public void viewQuiz(Scanner sc) {
+			try (QuizDao qd = new QuizDao()){
+				
+				List<Quiz> quizList = qd.listQuizzes();
+				for (Quiz quiz :quizList) {
+					System.out.println("****************************");
+					System.out.println("Quiz Id - " + quiz.getId());
+					System.out.println("Quiz Name  - " + quiz.getTitle());
+				
+					System.out.println("****************************");
+				}
+		
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+         
+	  public void takeQuiz(Scanner sc)  {
+		  System.out.println("Enter Quiz Id:");
+		    int quizId= sc.nextInt();
+		  try {
+			  AttemptDao atm = new AttemptDao();
+			  if((atm.hasAttemptedAlready(UserDao.curUser.getId() ,quizId))== false) {
+				  System.out.println("**********Quiz Started**********");
+				  try(QuestionsDao qued = new QuestionsDao()){
+					  
+					  List<Questions> list = qued.getQuestions(quizId);
+					  int i = 1;
+					  int score =0 ;
+					  for(Questions q : list) {
+						 System.out.println(i+")"+q.getText());
+						 System.out.println("a)"+q.getA());
+						 System.out.println("b)"+q.getB());
+						 System.out.println("c)"+q.getC());
+						 System.out.println("d)"+q.getD());
+						 
+						 System.out.println("Enter  correct option :");
+						 String option = sc.next();
+						 
+						 if (String.valueOf(q.getCorrect()).toUpperCase().equals(String.valueOf(option.charAt(0)).toUpperCase()) ) {
+							 score++;
+							 
+						 }
+						 System.out.println("You entered option :"+option.toUpperCase());
+						 System.out.println("Correct ans is option :"+q.getCorrect());
+						 i++;					 
+						 }
+					  
+					  
+					  atm.recordAttempt(quizId,UserDao.curUser.getId(),score,list.size());
+					  
+				System.out.println("Quiz Completed !! " );
+				System.out.println("Your score is :" + score);
+					  
+					 
+					  
+				  }catch(Exception e) {
+					  e.printStackTrace();
+				  }
+			  }else {
+				  System.out.println("Quiz Alreday Attempted ! ");
+
+			  }
+		} catch (Exception e2) {
+			e2.printStackTrace();
+		}
+	  }
+	
+	  
+	  public void viewScore() {
+		  System.out.println(" Your Score :");
+		   try(AttemptDao ad = new AttemptDao()){
+			   
+			   List<Attempt> list = ad.getAteemptlist(UserDao.curUser.getId());
+			   for(Attempt at : list) {
+				   System.out.println( "QuizId:"+ at.getQuizId()+"  "+"Score:"+ at.getScore() );
+				   
+			   }
+			   
+			   
+			   
+		   } catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	  }
+	  
+	  
 }
+		    	
+		    	
+		    
+		   
