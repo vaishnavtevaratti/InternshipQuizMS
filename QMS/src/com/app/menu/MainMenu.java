@@ -4,48 +4,38 @@ import java.util.Scanner;
 import com.app.service.*;
 
 public class MainMenu {
-	private static AdminService adminService = new AdminService();
-	private static StudentService studentService = new StudentService();
-	
-	public static  int mainMenuOptions(Scanner sc) {
-		System.out.println("**************Main menu*******************");
-		System.out.println("0.Exit");
-		System.out.println("1.Admin Login  ");
-		System.out.println("2.Student Register");
-		System.out.println("3.Student Login");
-		System.out.println(" Enter your choice: ");
 
+	public static int options(Scanner sc) {
+		System.out.println("=== Quiz App Console === ");
+		System.out.println("1) Admin Login ");
+		System.out.println("2) Student Register");
+		System.out.println("3) Student Login");
+		System.out.println("4) Exit \n");
+
+		System.out.print("Enter your choice: ");
 		return sc.nextInt();
 	}
-	
-	public static void mainMenu(Scanner sc) {
-		
-		int choice ;
-		while ((choice = mainMenuOptions(sc)) != 0) {
+
+	public static void getMainMenu(Scanner sc) {
+		int choice;
+		while ((choice = options(sc)) != 0) {
 			switch (choice) {
 			case 1:
-				System.out.println("You have selected Admin Login");
-				System.out.println();
-				adminService.AdminLogin(sc);				
+				AdminMenu.getadminMenu(sc);
 				break;
 			case 2:
-				System.out.println("You have selected Student Register");
-				System.out.println();
-				studentService.StudentRegistration(sc);
+				StudentService.userResistration(sc);
 				break;
 			case 3:
-				System.out.println("You have selected Student Login ");
-				System.out.println();
-				studentService.StudentLogin(sc);
+				StudentMenu.getStudentMenu(sc);
 				break;
-
+			case 4:
+				choice = 0;
+				break;
 			default:
-				System.out.println("Wrong choice...");
-				break;
+				throw new IllegalArgumentException("Unexpected value: " + choice);
 			}
 		}
-		System.out.println("Thankyou for using our App!");
 	}
-	
 
 }

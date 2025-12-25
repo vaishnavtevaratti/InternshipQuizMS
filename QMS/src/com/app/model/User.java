@@ -1,7 +1,5 @@
 package com.app.model;
 
-
-
 public class User {
 	private int id;
 	private String name;
@@ -10,7 +8,6 @@ public class User {
 	private String role;
 	
 	public User() {
-	
 		
 	}
 	
@@ -22,8 +19,6 @@ public class User {
 		this.password = password;
 		this.role = role;
 	}
-	
-	
 	
 	public int getId() {
 		return id;

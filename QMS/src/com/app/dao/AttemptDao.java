@@ -8,89 +8,69 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.app.model.Attempt;
-import com.app.model.Questions;
 import com.app.util.Dbutil;
 
-public class AttemptDao implements AutoCloseable {
+public class AttemptDao implements AutoCloseable{
 	private static Connection connection = null;
 
 	public AttemptDao() throws SQLException {
 		connection = Dbutil.getConnection();
 	}
 	
-	
-	public void recordAttempt(int quizId,int student_id,int score, int total_questions) throws SQLException {
-		String sql = " insert into quiz_attempts( quiz_id  ,student_id,final_score,total_questions)values(?,?,?,?)   ";
-		try(PreparedStatement ps = connection.prepareStatement(sql)){
-			ps.setInt(1,quizId);
-			ps.setInt(2,student_id);
-			ps.setInt(3,score);
-			ps.setInt(4,total_questions);
-			ps.executeUpdate();	
-			
-		
-			
-		}
-			
-		}
-	public List<Attempt> getAteemptlist(int studentId) throws SQLException {
-		List<Attempt> list = new ArrayList<>();
-		String sql = "select * from quiz_attempts where student_id =?";
-		try (PreparedStatement ps = connection.prepareStatement(sql)) {
-			ps.setInt(1, studentId);
-			ResultSet rs = ps.executeQuery();
-
-			while (rs.next()) {
-				Attempt atm = new Attempt();
-				atm.setId(rs.getInt("attempt_id"));
-				atm.setQuizId(rs.getInt("quiz_id"));
-				atm.setStudent_id(rs.getInt("student_id"));
-				atm.setScore(rs.getInt("final_score"));
-				atm.setTotal(rs.getInt("total_questions"));
-				
-				list.add(atm);
-
-			}
-			
-		}
-		return list;
-		
-		 
-		
-		
+	public boolean hasAttemptedBefore(int studentId,int quizId) throws SQLException { 
+		String sql = "SELECT * FROM quiz_attempts WHERE student_id = ? AND quiz_id = ?";
+		PreparedStatement selectStatement = connection.prepareStatement(sql);
+		selectStatement.setInt(1, studentId);
+		selectStatement.setInt(2, quizId);
+		ResultSet rs = selectStatement.executeQuery(); 
+		return rs.next();
 	}
-	 public boolean hasAttemptedAlready(int student_id , int quiz_id) throws SQLException {
-		  
-		 String sql = " select * from quiz_attempts where  student_id =? and quiz_id =?";
-		  try(PreparedStatement ps = connection.prepareStatement(sql)){
-			  ps.setInt(1, student_id);
-			  ps.setInt(2, quiz_id);
-			  
-			  ResultSet rs = ps.executeQuery();
-			if(rs.next()) {
-				return true;
-			}
-			else {
-				return false;
-			}
-			  
-			  
-			  
-		  }
-		  
-		  
-		
-	  }
-	 
+	
+	public void recordAttempt(int quiz_id,int student_id,int finalScore,int numberOfQuestins) throws SQLException {
+		String sql = "INSERT INTO quiz_attempts (quiz_id,student_id,final_score,total_questions) VALUES(?,?,?,?)";
+		PreparedStatement insertStatement = connection.prepareStatement(sql);
+		insertStatement.setInt(1, quiz_id);
+		insertStatement.setInt(2, student_id);
+		insertStatement.setInt(3, finalScore);
+		insertStatement.setInt(4, numberOfQuestins);
+		insertStatement.executeUpdate();
+	}
+	
+	public List<Attempt> getAttemptList(int student_id) throws SQLException{
+		List<Attempt> attemptList = new ArrayList<>();
+		String sql = "SELECT * FROM quiz_attempts WHERE student_id = ?";
+		PreparedStatement selectStatement = connection.prepareStatement(sql);
+		selectStatement.setInt(1, student_id);
+		ResultSet rs =  selectStatement.executeQuery();
+		while(rs.next()) {
+			Attempt attempt = new Attempt();
+			attempt.setId(rs.getInt("attempt_id"));
+			attempt.setQuizId(rs.getInt("quiz_id"));
+			attempt.setScore(rs.getInt("final_score"));
+			attempt.setStudent_id(rs.getInt("student_id"));
+			attempt.setTotal(rs.getInt("total_questions"));
+			//attempt.setAttemptTime(rs.getTimestamp("created_at"));4
+			attemptList.add(attempt);
+		}
+		return attemptList;
+	}
+	
+	public void displayResult() throws SQLException {
+		String sql = "SELECT u.name, q.final_score, q.total_questions, q.quiz_id FROM quiz_attempts q, users u WHERE student_id = user_id AND role = 'STUDENT' ORDER BY u.name";
+		PreparedStatement selectStatement = connection.prepareStatement(sql);
+		ResultSet rs = selectStatement.executeQuery();
+		int i = 1;
+		while(rs.next()) {
+			System.out.println(i + ") " + "Name: " + rs.getString("name") + " --> " + "Quiz id: " + rs.getInt("quiz_id") + "Score " + rs.getInt("final_score") + "out of " + rs.getInt("total_questions"));
+			i++;
+		}
+	}
+	
 	@Override
-	public void close() throws Exception {
-		// TODO Auto-generated method stub
+	public void close() throws SQLException {
 		if (connection != null) {
 			connection.close();
 			connection = null;
 		}
-		
 	}
-
-
 }
