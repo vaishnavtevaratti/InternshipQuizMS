@@ -13,7 +13,7 @@ import com.app.util.QuestionFileParser;
 
 public class AdminService {
 	
-	
+	 //admin
 
 
 	public static void AdminLogin(Scanner sc) {
@@ -34,11 +34,8 @@ public class AdminService {
 			e.printStackTrace();
 		}
 	  }
-	  
-	  
 	  public static void createQuiz(Scanner sc )  {
-
-	        sc.nextLine();
+	      sc.nextLine();
 		  System.out.println("Enter Quiz title: ");
 		  String title = sc.nextLine();
 		  System.out.println("Enter question file path:");
