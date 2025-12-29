@@ -10,9 +10,5 @@ public class Main {
 		 Scanner sc = new Scanner(System.in);
 		 MainMenu.mainMenu(sc);
 		 sc.close();
-				 
-
-
 	}
-
 }

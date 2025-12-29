@@ -1,14 +1,13 @@
 package com.app.util;
 
-import com.app.model.*;
 import java.io.*;
 import java.util.*;
-import com.app.model.Question;
+import com.app.model.Questions;
 
-public class QuestionFileParser {
+public class QuestionFileParser { 
 
-    public static List<Question> parse(File file) throws Exception {
-        List<Question> list = new ArrayList<>();
+    public static List<Questions> parse(File file) throws Exception {
+        List<Questions> list = new ArrayList<>();
         BufferedReader br = new BufferedReader(new FileReader(file));
 
         String line, q=null,a=null,b=null,c=null,d=null;
@@ -18,7 +17,7 @@ public class QuestionFileParser {
             line=line.trim();
             if(line.isEmpty()){
                 if(q!=null){
-                    list.add(new Question(0,0,q,a,b,c,d,ans));
+                    list.add(new Questions(0,0,q,a,b,c,d,ans));
                 }
                 q=a=b=c=d=null; ans=0;
                 continue;
