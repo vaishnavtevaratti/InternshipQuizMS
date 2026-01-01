@@ -1,0 +1,6 @@
+INDEX VERSION 1.4+D:\InternshipQuizMS web\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+2260723465.index
+3405728663.index
+927334462.index
+2227544419.index
+4218527875.index

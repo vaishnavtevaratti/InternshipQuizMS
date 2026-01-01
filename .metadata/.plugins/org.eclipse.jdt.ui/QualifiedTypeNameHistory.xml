@@ -1,2 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy/>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="com.app.admin.beans.DeleteQuizBean"/>
+    <fullyQualifiedTypeName name="com.app.dao.QuizDao"/>
+    <fullyQualifiedTypeName name="com.app.model.Attempt"/>
+    <fullyQualifiedTypeName name="com.app.admin.beans.ViewResultBean"/>
+    <fullyQualifiedTypeName name="com.app.student.beans.AttemptQuizBean"/>
+    <fullyQualifiedTypeName name="com.app.model.Questions"/>
+    <fullyQualifiedTypeName name="com.app.dao.QuestionsDao"/>
+    <fullyQualifiedTypeName name="com.app.student.beans.saveScoreBean"/>
+    <fullyQualifiedTypeName name="com.app.student.beans.ViewScoreBean"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="lombok.AllArgsConstructor"/>
+    <fullyQualifiedTypeName name="lombok.Data"/>
+    <fullyQualifiedTypeName name="com.app.student.beans.hasAttemptedBefore"/>
+    <fullyQualifiedTypeName name="java.lang.Exception"/>
+    <fullyQualifiedTypeName name="com.app.dao.AttemptDao"/>
+</qualifiedTypeNameHistroy>
